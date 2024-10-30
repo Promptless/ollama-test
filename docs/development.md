@@ -128,6 +128,8 @@ First, install required tools:
   - [MSYS2](https://www.msys2.org/)
 - The `ThreadJob` Powershell module: `Install-Module -Name ThreadJob -Scope CurrentUser`
 
+Ensure that the GCC compiler is Clang-compatible. If not, refer to the setup instructions below.
+
 Then, build the `ollama` binary:
 
 ```powershell
@@ -300,6 +302,8 @@ The following tools are required as a minimal development environment to build C
   - [MSYS2](https://www.msys2.org/)
     - After installing, from an MSYS2 terminal, run `pacman -S mingw-w64-ucrt-x86_64-gcc make` to install the required tools
   - Assuming you used the default install prefix for msys2 above, add `c:\msys64\ucrt64\bin` and `c:\msys64\usr\bin` to your environment variable `PATH` where you will perform the build steps below (e.g. system-wide, account-level, powershell, cmd, etc.)
+
+Ensure that the GCC compiler is Clang-compatible. If not, refer to the setup instructions below.
 
 Then, build the `ollama` binary:
 
