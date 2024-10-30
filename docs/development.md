@@ -171,7 +171,6 @@ pacman -S mingw-w64-clang-aarch64-clang mingw-w64-clang-aarch64-gcc-compat mingw
 
 You will need to ensure your PATH includes go, cmake, gcc and clang mingw32-make to build ollama from source. (typically `C:\msys64\clangarm64\bin\`)
 
-
 ## Transition to Go runner
 
 The Ollama team is working on moving to a new Go based runner that loads and runs models in a subprocess to replace the previous code under `ext_server`. During this transition period, this new Go runner is "opt in" at build time, and requires using a different approach to build.
@@ -182,7 +181,6 @@ Install required tools:
 
 - go version 1.22 or higher
 - gcc version 11.4.0 or higher
-
 
 ### MacOS
 
