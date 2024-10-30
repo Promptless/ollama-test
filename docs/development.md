@@ -171,6 +171,7 @@ pacman -S mingw-w64-clang-aarch64-clang mingw-w64-clang-aarch64-gcc-compat mingw
 
 You will need to ensure your PATH includes go, cmake, gcc and clang mingw32-make to build ollama from source. (typically `C:\msys64\clangarm64\bin\`)
 
+Additionally, ensure that the GCC compiler on Windows is Clang-compatible. If not, you will encounter an error. For setup instructions, refer to the section below.
 
 ## Transition to Go runner
 
@@ -348,3 +349,5 @@ pacman -S mingw-w64-clang-aarch64-clang mingw-w64-clang-aarch64-gcc-compat mingw
 ```
 
 You will need to ensure your PATH includes go, cmake, gcc and clang mingw32-make to build ollama from source. (typically `C:\msys64\clangarm64\bin\`)
+
+Additionally, ensure that the GCC compiler on Windows is Clang-compatible. If not, you will encounter an error. For setup instructions, refer to the section below.
