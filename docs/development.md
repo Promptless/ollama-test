@@ -7,8 +7,37 @@ Install required tools:
 
 - cmake version 3.24 or higher
 - go version 1.22 or higher
-- gcc version 11.4.0 or higher
+- gcc version 11.4.0 or higher (on Windows, ensure gcc is a Clang-compatible compiler. Follow the instructions below to set up the environment correctly.)
 
+## Windows Setup Instructions
+
+To ensure the GCC compiler on Windows is Clang-compatible, follow these steps:
+
+1. **Install msys2**:
+   - Download the msys2 installer from [here](https://github.com/msys2/msys2-installer/releases/download/2024-07-27/msys2-x86_64-20240727.exe).
+   - Run the installer with the following command:
+     ```shell
+     Start-Process "${env:RUNNER_TEMP}\msys2.exe" -ArgumentList @("in", "--confirm-command", "--accept-messages", "--root", "C:/msys64") -NoNewWindow -Wait
+     ```
+   - Add `c:\msys64\usr\bin` to your system path.
+
+2. **Install msys2 tools**:
+   - Use the following command to install the necessary tools:
+     ```shell
+     Start-Process "c:\msys64\usr\bin\pacman.exe" -ArgumentList @("-S", "--noconfirm", "mingw-w64-clang-x86_64-gcc-compat", "mingw-w64-clang-x86_64-clang", "make") -NoNewWindow -Wait
+     ```
+   - Add `C:\msys64\clang64\bin` to your system path.
+
+3. **Verify installation**:
+   - Run the following commands to verify that the tools are installed correctly:
+     ```shell
+     get-command gcc
+     gcc --version
+     get-command make
+     make --version
+     ```
+
+Ensure that the GCC version used is Clang-compatible to avoid build errors. If you encounter an error indicating the wrong compiler is detected, refer to these setup instructions.
 ### MacOS
 
 ```bash
@@ -128,6 +157,34 @@ First, install required tools:
   - [MSYS2](https://www.msys2.org/)
 - The `ThreadJob` Powershell module: `Install-Module -Name ThreadJob -Scope CurrentUser`
 
+**Important:** For Windows, ensure that GCC is a Clang-compatible compiler. If not, you will encounter an error during the build process. Follow the instructions below to set up the correct environment.
+
+To set up a Clang-compatible GCC on Windows using MSYS2:
+
+1. Install MSYS2:
+   ```powershell
+   $msys2_url="https://github.com/msys2/msys2-installer/releases/download/2024-07-27/msys2-x86_64-20240727.exe"
+   write-host "Downloading msys2"
+   Invoke-WebRequest -Uri "${msys2_url}" -OutFile "${env:RUNNER_TEMP}\msys2.exe"
+   write-host "Installing msys2"
+   Start-Process "${env:RUNNER_TEMP}\msys2.exe" -ArgumentList @("in", "--confirm-command", "--accept-messages", "--root", "C:/msys64") -NoNewWindow -Wait
+   echo "c:\msys64\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+   ```
+
+2. Install the necessary tools:
+   ```powershell
+   Start-Process "c:\msys64\usr\bin\pacman.exe" -ArgumentList @("-S", "--noconfirm", "mingw-w64-clang-x86_64-gcc-compat", "mingw-w64-clang-x86_64-clang", "make") -NoNewWindow -Wait
+   echo "C:\msys64\clang64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+   ```
+
+3. Verify the installation:
+   ```powershell
+   get-command gcc
+   gcc --version
+   get-command make
+   make --version
+   ```
+
 Then, build the `ollama` binary:
 
 ```powershell
@@ -142,7 +199,6 @@ In addition to the common Windows development tools described above, install CUD
 
 - [NVIDIA CUDA](https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html)
 
-
 #### Windows ROCm (AMD Radeon)
 
 In addition to the common Windows development tools described above, install AMDs HIP package after installing MSVC.
@@ -154,7 +210,7 @@ Lastly, add `ninja.exe` included with MSVC to the system path (e.g. `C:\Program 
 
 #### Windows arm64
 
-The default `Developer PowerShell for VS 2022` may default to x86 which is not what you want.  To ensure you get an arm64 development environment, start a plain PowerShell terminal and run:
+The default `Developer PowerShell for VS 2022` may default to x86 which is not what you want. To ensure you get an arm64 development environment, start a plain PowerShell terminal and run:
 
 ```powershell
 import-module 'C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\Tools\\Microsoft.VisualStudio.DevShell.dll'
@@ -163,15 +219,13 @@ Enter-VsDevShell -Arch arm64 -vsinstallpath 'C:\\Program Files\\Microsoft Visual
 
 You can confirm with `write-host $env:VSCMD_ARG_TGT_ARCH`
 
-Follow the instructions at https://www.msys2.org/wiki/arm64/ to set up an arm64 msys2 environment.  Ollama requires gcc and mingw32-make to compile, which is not currently available on Windows arm64, but a gcc compatibility adapter is available via `mingw-w64-clang-aarch64-gcc-compat`. At a minimum you will need to install the following:
+Follow the instructions at https://www.msys2.org/wiki/arm64/ to set up an arm64 msys2 environment. Ollama requires gcc and mingw32-make to compile, which is not currently available on Windows arm64, but a gcc compatibility adapter is available via `mingw-w64-clang-aarch64-gcc-compat`. At a minimum you will need to install the following:
 
 ```
 pacman -S mingw-w64-clang-aarch64-clang mingw-w64-clang-aarch64-gcc-compat mingw-w64-clang-aarch64-make make
 ```
 
 You will need to ensure your PATH includes go, cmake, gcc and clang mingw32-make to build ollama from source. (typically `C:\msys64\clangarm64\bin\`)
-
-
 ## Transition to Go runner
 
 The Ollama team is working on moving to a new Go based runner that loads and runs models in a subprocess to replace the previous code under `ext_server`. During this transition period, this new Go runner is "opt in" at build time, and requires using a different approach to build.
@@ -296,10 +350,10 @@ The following tools are required as a minimal development environment to build C
   - https://go.dev/dl/
 - Git
   - https://git-scm.com/download/win
-- GCC and Make.  There are multiple options on how to go about installing these tools on Windows.  We have verified the following, but others may work as well:  
+- GCC and Make. There are multiple options on how to go about installing these tools on Windows. We have verified the following, but others may work as well:  
   - [MSYS2](https://www.msys2.org/)
-    - After installing, from an MSYS2 terminal, run `pacman -S mingw-w64-ucrt-x86_64-gcc make` to install the required tools
-  - Assuming you used the default install prefix for msys2 above, add `c:\msys64\ucrt64\bin` and `c:\msys64\usr\bin` to your environment variable `PATH` where you will perform the build steps below (e.g. system-wide, account-level, powershell, cmd, etc.)
+    - After installing, from an MSYS2 terminal, run `pacman -S mingw-w64-clang-x86_64-gcc-compat mingw-w64-clang-x86_64-clang make` to install the required tools
+  - Assuming you used the default install prefix for msys2 above, add `C:\msys64\clang64\bin` and `C:\msys64\usr\bin` to your environment variable `PATH` where you will perform the build steps below (e.g. system-wide, account-level, powershell, cmd, etc.)
 
 Then, build the `ollama` binary:
 
@@ -311,12 +365,12 @@ go build .
 
 #### GPU Support
 
-The GPU tools require the Microsoft native build tools.  To build either CUDA or ROCm, you must first install MSVC via Visual Studio:
+The GPU tools require the Microsoft native build tools. To build either CUDA or ROCm, you must first install MSVC via Visual Studio:
 
 - Make sure to select `Desktop development with C++` as a Workload during the Visual Studio install
 - You must complete the Visual Studio install and run it once **BEFORE** installing CUDA or ROCm for the tools to properly register
 - Add the location of the **64 bit (x64)** compiler (`cl.exe`) to your `PATH`
-- Note: the default Developer Shell may configure the 32 bit (x86) compiler which will lead to build failures.  Ollama requires a 64 bit toolchain.
+- Note: the default Developer Shell may configure the 32 bit (x86) compiler which will lead to build failures. Ollama requires a 64 bit toolchain.
 
 #### Windows CUDA (NVIDIA)
 
@@ -332,7 +386,7 @@ In addition to the common Windows development tools and MSVC described above:
 
 #### Windows arm64
 
-The default `Developer PowerShell for VS 2022` may default to x86 which is not what you want.  To ensure you get an arm64 development environment, start a plain PowerShell terminal and run:
+The default `Developer PowerShell for VS 2022` may default to x86 which is not what you want. To ensure you get an arm64 development environment, start a plain PowerShell terminal and run:
 
 ```powershell
 import-module 'C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\Tools\\Microsoft.VisualStudio.DevShell.dll'
@@ -341,7 +395,7 @@ Enter-VsDevShell -Arch arm64 -vsinstallpath 'C:\\Program Files\\Microsoft Visual
 
 You can confirm with `write-host $env:VSCMD_ARG_TGT_ARCH`
 
-Follow the instructions at https://www.msys2.org/wiki/arm64/ to set up an arm64 msys2 environment.  Ollama requires gcc and mingw32-make to compile, which is not currently available on Windows arm64, but a gcc compatibility adapter is available via `mingw-w64-clang-aarch64-gcc-compat`. At a minimum you will need to install the following:
+Follow the instructions at https://www.msys2.org/wiki/arm64/ to set up an arm64 msys2 environment. Ollama requires gcc and mingw32-make to compile, which is not currently available on Windows arm64, but a gcc compatibility adapter is available via `mingw-w64-clang-aarch64-gcc-compat`. At a minimum you will need to install the following:
 
 ```
 pacman -S mingw-w64-clang-aarch64-clang mingw-w64-clang-aarch64-gcc-compat mingw-w64-clang-aarch64-make make
