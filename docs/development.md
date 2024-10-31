@@ -7,37 +7,35 @@ Install required tools:
 
 - cmake version 3.24 or higher
 - go version 1.22 or higher
-- gcc version 11.4.0 or higher (on Windows, ensure gcc is a Clang-compatible compiler as per the setup instructions below)
+- gcc version 11.4.0 or higher (on Windows, ensure gcc is Clang-compatible; see instructions below)
 
 ## Windows Setup Instructions
 
-To ensure the GCC compiler on Windows is Clang-compatible, follow these steps:
+For Windows, the gcc compiler must be Clang-compatible. Follow these steps to set up the environment:
 
 1. **Install msys2**:
    - Download the msys2 installer from [here](https://github.com/msys2/msys2-installer/releases/download/2024-07-27/msys2-x86_64-20240727.exe).
-   - Run the installer with the following command:
-     ```shell
+   - Run the installer with the following options:
+     ```
      Start-Process "${env:RUNNER_TEMP}\msys2.exe" -ArgumentList @("in", "--confirm-command", "--accept-messages", "--root", "C:/msys64") -NoNewWindow -Wait
      ```
-   - Add `c:\msys64\usr\bin` to your system path.
 
 2. **Install msys2 tools**:
-   - Use the following command to install the necessary tools:
-     ```shell
+   - Open msys2 and run the following command to install the necessary tools:
+     ```
      Start-Process "c:\msys64\usr\bin\pacman.exe" -ArgumentList @("-S", "--noconfirm", "mingw-w64-clang-x86_64-gcc-compat", "mingw-w64-clang-x86_64-clang", "make") -NoNewWindow -Wait
      ```
-   - Add `C:\msys64\clang64\bin` to your system path.
 
 3. **Verify installation**:
-   - Run the following commands to verify the installation:
-     ```shell
+   - Ensure that gcc and make are correctly installed and configured:
+     ```
      get-command gcc
      gcc --version
      get-command make
      make --version
      ```
 
-Ensure that the GCC version is Clang-compatible to avoid build errors. If the wrong compiler is detected, refer to these setup instructions.
+By following these steps, you will ensure that the gcc compiler on Windows is Clang-compatible, which is necessary for building the project correctly.
 ### MacOS
 
 ```bash
@@ -157,31 +155,21 @@ First, install required tools:
   - [MSYS2](https://www.msys2.org/)
 - The `ThreadJob` Powershell module: `Install-Module -Name ThreadJob -Scope CurrentUser`
 
-Additionally, ensure that the GCC compiler on Windows is Clang-compatible. If not, follow the instructions below to set up the environment using MSYS2:
+**Important:** Ensure that the GCC compiler on Windows is Clang-compatible. If not, follow the setup instructions below to install the necessary tools using MSYS2.
 
-1. Install MSYS2:
-   ```powershell
-   $msys2_url="https://github.com/msys2/msys2-installer/releases/download/2024-07-27/msys2-x86_64-20240727.exe"
-   write-host "Downloading msys2"
-   Invoke-WebRequest -Uri "${msys2_url}" -OutFile "${env:RUNNER_TEMP}\msys2.exe"
-   write-host "Installing msys2"
-   Start-Process "${env:RUNNER_TEMP}\msys2.exe" -ArgumentList @("in", "--confirm-command", "--accept-messages", "--root", "C:/msys64") -NoNewWindow -Wait
-   echo "c:\msys64\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-   ```
+To set up the Clang-compatible GCC compiler using MSYS2, run the following commands in PowerShell:
 
-2. Install MSYS2 tools:
-   ```powershell
-   Start-Process "c:\msys64\usr\bin\pacman.exe" -ArgumentList @("-S", "--noconfirm", "mingw-w64-clang-x86_64-gcc-compat", "mingw-w64-clang-x86_64-clang", "make") -NoNewWindow -Wait
-   echo "C:\msys64\clang64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-   ```
+```powershell
+$msys2_url="https://github.com/msys2/msys2-installer/releases/download/2024-07-27/msys2-x86_64-20240727.exe"
+write-host "Downloading msys2"
+Invoke-WebRequest -Uri "${msys2_url}" -OutFile "${env:RUNNER_TEMP}\msys2.exe"
+write-host "Installing msys2"
+Start-Process "${env:RUNNER_TEMP}\msys2.exe" -ArgumentList @("in", "--confirm-command", "--accept-messages", "--root", "C:/msys64") -NoNewWindow -Wait
+echo "c:\msys64\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
-3. Verify tools:
-   ```powershell
-   get-command gcc
-   gcc --version
-   get-command make
-   make --version
-   ```
+Start-Process "c:\msys64\usr\bin\pacman.exe" -ArgumentList @("-S", "--noconfirm", "mingw-w64-clang-x86_64-gcc-compat", "mingw-w64-clang-x86_64-clang", "make") -NoNewWindow -Wait
+echo "C:\msys64\clang64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+```
 
 Then, build the `ollama` binary:
 
