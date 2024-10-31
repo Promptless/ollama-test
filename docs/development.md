@@ -7,7 +7,7 @@ Install required tools:
 
 - cmake version 3.24 or higher
 - go version 1.22 or higher
-- gcc version 11.4.0 or higher (on Windows, ensure gcc is a Clang-compatible compiler. Follow the instructions below to set up the environment correctly.)
+- gcc version 11.4.0 or higher (on Windows, ensure gcc is a Clang-compatible compiler as per the setup instructions below)
 
 ## Windows Setup Instructions
 
@@ -29,7 +29,7 @@ To ensure the GCC compiler on Windows is Clang-compatible, follow these steps:
    - Add `C:\msys64\clang64\bin` to your system path.
 
 3. **Verify installation**:
-   - Run the following commands to verify that the tools are installed correctly:
+   - Run the following commands to verify the installation:
      ```shell
      get-command gcc
      gcc --version
@@ -37,7 +37,7 @@ To ensure the GCC compiler on Windows is Clang-compatible, follow these steps:
      make --version
      ```
 
-Ensure that the GCC version used is Clang-compatible to avoid build errors. If you encounter an error indicating the wrong compiler is detected, refer to these setup instructions.
+Ensure that the GCC version is Clang-compatible to avoid build errors. If the wrong compiler is detected, refer to these setup instructions.
 ### MacOS
 
 ```bash
@@ -157,9 +157,7 @@ First, install required tools:
   - [MSYS2](https://www.msys2.org/)
 - The `ThreadJob` Powershell module: `Install-Module -Name ThreadJob -Scope CurrentUser`
 
-**Important:** For Windows, ensure that GCC is a Clang-compatible compiler. If not, you will encounter an error during the build process. Follow the instructions below to set up the correct environment.
-
-To set up a Clang-compatible GCC on Windows using MSYS2:
+Additionally, ensure that the GCC compiler on Windows is Clang-compatible. If not, follow the instructions below to set up the environment using MSYS2:
 
 1. Install MSYS2:
    ```powershell
@@ -171,13 +169,13 @@ To set up a Clang-compatible GCC on Windows using MSYS2:
    echo "c:\msys64\usr\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
    ```
 
-2. Install the necessary tools:
+2. Install MSYS2 tools:
    ```powershell
    Start-Process "c:\msys64\usr\bin\pacman.exe" -ArgumentList @("-S", "--noconfirm", "mingw-w64-clang-x86_64-gcc-compat", "mingw-w64-clang-x86_64-clang", "make") -NoNewWindow -Wait
    echo "C:\msys64\clang64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
    ```
 
-3. Verify the installation:
+3. Verify tools:
    ```powershell
    get-command gcc
    gcc --version
