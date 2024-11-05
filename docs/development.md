@@ -115,6 +115,9 @@ go build .
 
 If you have Docker available, you can build linux binaries with `./scripts/build_linux.sh` which has the CUDA and ROCm dependencies included. The resulting binary is placed in `./dist`
 
+#### Multimodal Model Support
+
+The build now includes support for multimodal models, such as "mllama," which require additional image processing capabilities. Ensure that your environment is set up to handle these models by including the necessary dependencies and configurations.
 ### Windows
 
 Note: The Windows build for Ollama is still under development.
