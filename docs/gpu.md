@@ -47,6 +47,7 @@ sudo modprobe nvidia_uvm`
 ## AMD Radeon
 Ollama supports the following AMD GPUs:
 
+- 7900XT with ROCm support
 ### Linux Support
 | Family         | Cards and accelerators                                                                                                               |
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
