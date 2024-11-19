@@ -67,7 +67,7 @@ ollama run my-model
 
 Ollama supports importing models for several different architectures including:
 
-  * Llama (including Llama 2, Llama 3, and Llama 3.1);
+  * Llama (including Llama 2, Llama 3, Llama 3.1, and Llama 3.2);
   * Mistral (including Mistral 1, Mistral 2, and Mixtral);
   * Gemma (including Gemma 1 and Gemma 2); and
   * Phi3

@@ -133,7 +133,13 @@ FROM ./ollama-model.gguf
 
 The GGUF file location should be specified as an absolute path or relative to the `Modelfile` location.
 
+#### Build from a Multimodal model
 
+```modelfile
+FROM llama3.2-vision
+```
+
+The `llama3.2-vision` model supports image processing capabilities in addition to text.
 ### PARAMETER
 
 The `PARAMETER` instruction defines a parameter that can be set when the model is run.
