@@ -124,7 +124,6 @@ Currently supported model architectures:
   * Mistral (including Mistral 1, Mistral 2, and Mixtral)
   * Gemma (including Gemma 1 and Gemma 2)
   * Phi3
-  * mllama
 
 #### Build from a GGUF file
 
