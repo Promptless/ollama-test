@@ -3,13 +3,7 @@
 > [!IMPORTANT]
 > The `llm` package that loads and runs models is being updated to use a new [Go runner](#transition-to-go-runner): this should only impact a small set of PRs however it does change how the project is built.
 
-Install required tools:
 
-- cmake version 3.24 or higher
-- go version 1.22 or higher
-- gcc version 11.4.0 or higher
-
-### MacOS
 
 ```bash
 brew install go cmake gcc
